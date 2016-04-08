@@ -40,12 +40,22 @@ input, button
 html, body, #container
   height: 100%
 
-body
-  font-family: "微软雅黑","HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,sans-serif;
+body {
+  /*font-family: "微软雅黑","HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,sans-serif;*/
+  font-family: 'helvetica neue',tahoma,'hiragino sans gb',stheiti,'wenquanyi micro hei',"微软雅黑","宋体",sans-serif;
   font-size:16px;
   background:#fff;
   color: rgba(0,0,0,0.6);
   -webkit-overflow-scrolling: touch
+}
+
+code,
+kbd,
+pre,
+samp {
+    font-family: monaco, menlo, consolas, 'courier new', courier, monospace;
+}
+
 
 h1,h2,h3{
   display: block;
@@ -113,3 +123,26 @@ a {
 
 if sidebar
   @import "_partial/sidebar"
+
+
+/** 提示框 **/
+
+.alertInfo {
+  position: fixed;
+  right: -9999px;
+  top: 20px;
+  z-index: 10;
+  background-color: #fafafa;
+  padding: 12px 18px;
+  border-radius: 2px;
+  box-shadow: 0 0 4px #ccc, 0 0 1px #fff;
+  color: #888;
+}
+.alertInfo .alert-avatar {
+  height: 40px;
+  width: 40px;
+  vertical-align: middle;
+  border-radius: 100%;
+  margin-right: 5px;
+}
+

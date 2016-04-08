@@ -1,33 +1,61 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <%
-  var title = page.title;
+<%
+var title = page.title; // 页面标题
 
-  if (is_archive()){
-    title = 'Archives';
-
-    if (is_month()){
-      title += ': ' + page.year + '/' + page.month;
-    } else if (is_year()){
-      title += ': ' + page.year;
-    }
-  } else if (is_category()){
-    title = 'Category: ' + page.category;
-  } else if (is_tag()){
-    title = 'Tag: ' + page.tag;
+if (is_archive()) {
+  title = 'Archives';
+  if (is_month()) {
+    title += ': ' + page.year + '/' + page.month;
+  } else if (is_year()) {
+    title += ': ' + page.year;
   }
-  %>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title><% if (title){ %><%= title %> | <% } %><%= config.title %></title>
+} else if (is_category()) {
+  title = 'Category: ' + page.category;
+} else if (is_tag()) {
+  title = 'Tag: ' + page.tag;
+}
+
+// description [页面描述 或 页面摘要 或 页面内容 或 全局描述]
+var description = page.description || page.excerpt || page.content || config.description;
+if (description){
+  description = description.substring(0, 200)
+    .replace(/<\/?([a-z][a-z0-9]*)\b[^>]*>?/gi, '')
+    .replace(/[\r\n]/g, ' ')
+    .replace(/^\s+|\s+$/g, '') // Remove prefixing/trailing spaces
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
+// 获取标签
+function get_tags () {
+  var tags = [];
+  ((page.tags || {}).data || []).forEach(function(el) {
+    tags.push(el.name);
+  });
+  return tags.join(",");
+}
+// keywords [页面关键词 或 页面标签 或 全局关键词]
+var keywords = page.keywords || get_tags() || config.keywords;
+
+// 七牛云cdn地址
+theme.qiniu = theme.qiniu || ''; // 防止出现 null
+-%>
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <%- open_graph({twitter_id: theme.twitter, google_plus: theme.google_plus, fb_admins: theme.fb_admins, fb_app_id: theme.fb_app_id}) %>
-  <% if (theme.rss){ %>
-    <link rel="alternative" href="<%- theme.rss %>" title="<%= config.title %>" type="application/atom+xml">
-  <% } %>
-  <% if (theme.favicon){ %>
-    <link rel="icon" href="<%- theme.favicon %>">
-  <% } %>
-  <%- css('css/style') %>
+  <title><%= (title ? title + " | " : "") + config.title %></title>
+  <meta name="keywords" content="<%= keywords %>">
+  <meta name="description" content="<%= description %>">
+<% if (theme.rss) { -%>
+  <link rel="alternative" href="<%- theme.rss %>" title="<%= config.title %>" type="application/atom+xml">
+<% } -%>
+<% if (theme.favicon) { -%>
+  <link rel="icon" href="<%- theme.favicon %>">
+<% } -%>
+  <%- css(theme.qiniu + 'assets/css/style') %>
+  <script>var qiniu='<%- theme.qiniu %>';var duoshuo='<%- theme.duoshuo %>';</script>
 </head>

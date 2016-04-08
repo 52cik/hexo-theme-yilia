@@ -21,8 +21,10 @@ rss: /atom.xml
 
 # Content
 excerpt_link: more
+# 图片弹层显示
 fancybox: true
-mathjax: true
+# 数学公式
+mathjax: false
 
 # 是否开启动画效果
 animate: true
@@ -31,9 +33,15 @@ animate: true
 open_in_new: false
 
 # Miscellaneous
-google_analytics: ''
-favicon: /favicon.png
+google_analytics:
+# 百度统计
+baidu_hm: 7449be1fbac4a0d00c54a7297af7395b
+# 七牛静态地址 (如果有防盗链，记得加上，否则css背景字体都无法加载)
+# 默认填写 / 调用本地资源
+qiniu: /
 
+# 网站图标
+favicon: http://assets-cdn.github.com/favicon.ico
 #你的头像url
 avatar:
 #是否开启分享
